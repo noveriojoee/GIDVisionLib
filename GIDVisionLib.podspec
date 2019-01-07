@@ -9,7 +9,11 @@ Pod::Spec.new do |s|
   s.author             = { "noveriojoee" => "noverio.joe.hasibuan@outlook.co.id" }  
   s.source       = { :git => "https://github.com/noveriojoee/GIDVisionLib.git", 
                      :tag => "#{s.version}" }
+
+  s.resources = "GIDVisionLib/**/*.{png,jpeg,jpg,storyboard,xib,xcassets}"
+  s.source_files = "GIDVisionLib/**/*.{h,m}"
   s.ios.deployment_target = '9.0'
+  s.static_framework = true
 
   # Specified all the dependencies here
   s.dependency 'GoogleMobileVision/TextDetector'
