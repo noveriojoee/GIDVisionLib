@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7CA9CD3DB4177520E181BFC0 /* libPods-GIDVisionLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D990E2069C1D117B9FE56E7A /* libPods-GIDVisionLib.a */; };
-		DE2A470321E33A1400026949 /* Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = DE2A470121E33A1400026949 /* Utility.h */; };
+		DE2A470321E33A1400026949 /* Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = DE2A470121E33A1400026949 /* Utility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DE2A470421E33A1400026949 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = DE2A470221E33A1400026949 /* Utility.m */; };
 		DE362B3E21E32F450078E778 /* GIDVisionLib.h in Headers */ = {isa = PBXBuildFile; fileRef = DE362B3021E32F450078E778 /* GIDVisionLib.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
