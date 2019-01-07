@@ -1,0 +1,2 @@
+# GIDVisionLib
+OCR Wrapup library 
