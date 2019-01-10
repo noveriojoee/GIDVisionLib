@@ -14,6 +14,9 @@
 		DEE05C2021E34EFC0055B105 /* OCRViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = DEE05C1D21E34EFC0055B105 /* OCRViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DEE05C2121E34EFC0055B105 /* OCRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEE05C1E21E34EFC0055B105 /* OCRViewController.m */; };
 		DEE05C2221E34EFC0055B105 /* OCRViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DEE05C1F21E34EFC0055B105 /* OCRViewController.xib */; };
+		DEED835621E758A400DD1AF5 /* GIDOcrProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = DEED835521E758A400DD1AF5 /* GIDOcrProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DEF9940221E738D700FA9A91 /* OCRViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = DEF9940021E738D700FA9A91 /* OCRViewModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DEF9940321E738D700FA9A91 /* OCRViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF9940121E738D700FA9A91 /* OCRViewModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +32,9 @@
 		DEE05C1D21E34EFC0055B105 /* OCRViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCRViewController.h; sourceTree = "<group>"; };
 		DEE05C1E21E34EFC0055B105 /* OCRViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OCRViewController.m; sourceTree = "<group>"; };
 		DEE05C1F21E34EFC0055B105 /* OCRViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OCRViewController.xib; sourceTree = "<group>"; };
+		DEED835521E758A400DD1AF5 /* GIDOcrProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIDOcrProtocol.h; sourceTree = "<group>"; };
+		DEF9940021E738D700FA9A91 /* OCRViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCRViewModel.h; sourceTree = "<group>"; };
+		DEF9940121E738D700FA9A91 /* OCRViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OCRViewModel.m; sourceTree = "<group>"; };
 		E6D0AD226918626E8DFC6A92 /* Pods-GIDVisionLib.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GIDVisionLib.release.xcconfig"; path = "Pods/Target Support Files/Pods-GIDVisionLib/Pods-GIDVisionLib.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -83,6 +89,7 @@
 		DE362B2F21E32F450078E778 /* GIDVisionLib */ = {
 			isa = PBXGroup;
 			children = (
+				DEED835221E752EE00DD1AF5 /* Protocols */,
 				DEE05C2521E34F5E0055B105 /* Models */,
 				DEE05C2421E34F590055B105 /* ViewModels */,
 				DEE05C2321E34F4F0055B105 /* Views */,
@@ -116,6 +123,8 @@
 		DEE05C2421E34F590055B105 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				DEF9940021E738D700FA9A91 /* OCRViewModel.h */,
+				DEF9940121E738D700FA9A91 /* OCRViewModel.m */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -127,6 +136,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		DEED835221E752EE00DD1AF5 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				DEED835521E758A400DD1AF5 /* GIDOcrProtocol.h */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -134,6 +151,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEED835621E758A400DD1AF5 /* GIDOcrProtocol.h in Headers */,
+				DEF9940221E738D700FA9A91 /* OCRViewModel.h in Headers */,
 				DE362B3E21E32F450078E778 /* GIDVisionLib.h in Headers */,
 				DE2A470321E33A1400026949 /* Utility.h in Headers */,
 				DEE05C2021E34EFC0055B105 /* OCRViewController.h in Headers */,
@@ -257,6 +276,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEF9940321E738D700FA9A91 /* OCRViewModel.m in Sources */,
 				DE2A470421E33A1400026949 /* Utility.m in Sources */,
 				DEE05C2121E34EFC0055B105 /* OCRViewController.m in Sources */,
 			);

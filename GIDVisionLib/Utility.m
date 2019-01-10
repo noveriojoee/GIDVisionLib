@@ -117,4 +117,39 @@
     return @"";
 }
 
+#pragma extraction NPWP Number
+-(NSString*) extractNIK:(NSString *)scanResult{
+    NSString *nikNumber = @"NOT_FOUND";
+    NSString *regexEKtpNIK = @"[0-9]{16}";
+    NSString *regexReturn = [self extractWithRegex:regexEKtpNIK result:scanResult];
+    if (regexReturn.length == 16){
+        nikNumber = regexReturn;
+    }
+    return nikNumber;
+}
+
+#pragma extraction NPWP Number
+-(NSString *)extractNPWP:(NSString *)ScanResult{
+    NSString *NPWP = @"NOT_FOUND";
+    
+    NSString *REGEX_NPWP = @"[0-9]{2}[.][0-9]{3}[.][0-9]{3}[.][0-9][-][0-9]{3}[.][0-9]{3}";
+    NSString *regexReturn = [self extractWithRegex:REGEX_NPWP result:ScanResult];
+    if (regexReturn.length == 20) {
+        NPWP = regexReturn;
+    }
+    return NPWP;
+}
+
+#pragma extraction Card Number
+-(NSString *)extractDebitCardNumber:(NSString *)ScanResult{
+    NSString *debitCard = @"NOT_FOUND";
+    
+    NSString *REGEX_DEBITCARD = @"[0-9]{4}[ ][0-9]{4}[ ][0-9]{4}[ ][0-9]{4}";
+    NSString *regexReturn = [self extractWithRegex:REGEX_DEBITCARD result:ScanResult];
+    if (regexReturn.length == 19) {
+        debitCard = regexReturn;
+    }
+    return debitCard;
+}
+
 @end

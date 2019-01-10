@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import "Utility.h"
+#import "OCRViewModel.h"
+#import "GIDOcrProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,11 +20,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,retain) AVCaptureDeviceInput *captureInput;
 @property (nonatomic,retain) AVCaptureVideoDataOutput *captureOutput;
 @property (nonatomic,retain) AVCapturePhotoSettings *capturePhotoSetting;
-@property dispatch_queue_t captureSessionQueue;
 @property (weak, nonatomic) IBOutlet UITextView *tvOcrResult;
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (weak, nonatomic) IBOutlet UIView *viewOverlay;
+@property dispatch_queue_t captureSessionQueue;
+@property OCRViewModel* viewModel;
 
+@property (weak, nonatomic) id<GIDOcrProtocol> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

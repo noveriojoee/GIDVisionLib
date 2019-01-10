@@ -7,7 +7,9 @@
 //
 
 #import "OCRViewController.h"
+#import "Utility.h"
 #import <GoogleMobileVision/GoogleMobileVision.h>
+
 
 @interface OCRViewController ()<AVCaptureVideoDataOutputSampleBufferDelegate>{
     BOOL isReadingImage;
@@ -19,6 +21,7 @@
 @property (nonatomic,strong) UIImage *imageToProcess;
 @property (nonatomic, strong) GMVDetector *textDectector;
 @property UIView *originalView;
+
 @end
 
 @implementation OCRViewController
@@ -98,7 +101,6 @@
     
     [connection setVideoOrientation:AVCaptureVideoOrientationLandscapeRight];
     
-    
     if (isReadingImage == false){
         isReadingImage = true;
         UIImage *originalImage = [self.util imageFromSampleBuffer:sampleBuffer];
@@ -108,8 +110,7 @@
         
         self.imageToProcess = [UIImage imageWithCGImage:[cropImageInScanArea CGImage]
                                                   scale:[cropImageInScanArea scale]
-                                            orientation: UIImageOrientationRight];
-        
+                                            orientation: UIImageOrientationUp];
         [self performRecognitionWithImage:self.imageToProcess];
     }
 }
@@ -119,34 +120,36 @@
 - (void)performRecognitionWithImage : (UIImage*)originalImage{
     NSArray<GMVTextBlockFeature *> *features = [self.textDectector featuresInImage:originalImage options:nil];
     
+    self.viewModel.rawImage = UIImageJPEGRepresentation(originalImage, 0.0);
+    
+    self.viewModel.capturedText = @"";
+    for (GMVTextBlockFeature *textBlock in features) {
+        // For each text block, iterate over each line.
+        for (GMVTextLineFeature *textLine in textBlock.lines) {
+            self.viewModel.capturedText = [self.viewModel.capturedText stringByAppendingString:textLine.value];
+            self.viewModel.capturedText = [self.viewModel.capturedText stringByAppendingString:@"\n"];
+        }
+    }
     
     dispatch_async(dispatch_get_main_queue(), ^(void){
         //Run UI Updates
-        NSLog(@"Noverio Debug begin start here ");
-        self.tvOcrResult.text = @"";
-        for (GMVTextBlockFeature *textBlock in features) {
-            NSLog(@"Text Block: %@", NSStringFromCGRect(textBlock.bounds));
-            NSLog(@"lang: %@ value: %@", textBlock.language, textBlock.value);
-            
-            // For each text block, iterate over each line.
-            for (GMVTextLineFeature *textLine in textBlock.lines) {
-                NSLog(@"Text Line: %@", NSStringFromCGRect(textLine.bounds));
-                NSLog(@"lang: %@ value: %@", textLine.language, textLine.value);
-                self.tvOcrResult.text = [self.tvOcrResult.text stringByAppendingString:textLine.value];
-                self.tvOcrResult.text = [self.tvOcrResult.text stringByAppendingString:@"\n"];
-            }
-        }
-        NSLog(@"Noverio Debug end here ");
+        self.tvOcrResult.text = self.viewModel.capturedText;
     });
     
-    
-    isReadingImage = false;
+    if (![[self.viewModel extractCardInformation] isEqualToString:@"NOT_FOUND"]){
+        //stop scanning.
+        isReadingImage = true;
+        
+        NSString* stringBase64 = [self.viewModel.rawImage base64EncodedStringWithOptions:NSUTF8StringEncoding];
+        [self.delegate onCompletedWithResult:self.viewModel.capturedText image:stringBase64 viewController:self];
+    }else{
+        //continue scanning
+        isReadingImage = false;
+    }
 }
-
 
 - (IBAction)btnCloseClick:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
 
 @end
