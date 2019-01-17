@@ -18,8 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 -(instancetype)initWithOcrMode : (NSString*)ocrMode;
--(NSString*)extractCardInformation;
--(NSString*)getCapturedImageBase64;
+-(NSString*)extractCardInformationFromString : (NSString*) strInput;
 @end
 
 NS_ASSUME_NONNULL_END

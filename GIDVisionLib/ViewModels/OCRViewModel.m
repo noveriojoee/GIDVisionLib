@@ -11,8 +11,8 @@
 
 
 @interface OCRViewModel ()
-@property Utility* util;
-@end
+    @property Utility* util;
+    @end
 @implementation OCRViewModel
 -(instancetype)init {
     if ( self = [super init] ) {
@@ -22,7 +22,7 @@
     }
     return self;
 }
-
+    
 -(instancetype)initWithOcrMode : (NSString*)ocrMode {
     if ( self = [super init] ) {
         self.capturedText = @"";
@@ -31,22 +31,22 @@
     }
     return self;
 }
-
-
--(NSString*)extractCardInformation{
-    NSString* result;
+    
+    
+-(NSString*)extractCardInformationFromString : (NSString*) strInput{
+    self.capturedText = @"";
     if ([self.ocrMode isEqualToString:@"DEBIT_CARD"]){
-        result = [self.util extractDebitCardNumber:self.capturedText];
+        self.capturedText = [self.util extractDebitCardNumber:strInput];
     }else if([self.ocrMode isEqualToString:@"KTP"]){
-        result = [self.util extractNIK:self.capturedText];
+        self.capturedText = [self.util extractNIK:strInput];
     }else if([self.ocrMode isEqualToString:@"NPWP"]){
-        result = [self.util extractNPWP:self.capturedText];
+        self.capturedText = [self.util extractNPWP:strInput];
     }else{
-        result = @"NOT_FOUND";
+        self.capturedText = @"NOT_FOUND";
     }
-    return result;
+    return self.capturedText;
 }
-
-
-
-@end
+    
+    
+    
+    @end

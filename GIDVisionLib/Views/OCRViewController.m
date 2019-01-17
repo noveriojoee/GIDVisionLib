@@ -15,17 +15,18 @@
     BOOL isReadingImage;
     CGRect overlayRect;
 }
-@property Utility *util;
-
-@property (nonatomic, strong) NSOperationQueue *operationQueue;
-@property (nonatomic,strong) UIImage *imageToProcess;
-@property (nonatomic, strong) GMVDetector *textDectector;
-@property UIView *originalView;
-
-@end
+    @property Utility *util;
+    
+    @property (nonatomic, strong) NSOperationQueue *operationQueue;
+    @property (nonatomic,strong) UIImage *imageToProcess;
+    @property (nonatomic, strong) GMVDetector *textDectector;
+    @property (atomic, strong) NSString* capturedText;
+    @property UIView *originalView;
+    
+    @end
 
 @implementation OCRViewController
-
+    
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.util = [Utility new];
@@ -40,13 +41,13 @@
     
     [self initCapture];
 }
-
+    
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     overlayRect = self.viewOverlay.frame;
     self.originalView = self.view;
 }
-
+    
 - (void)initCapture {
     NSError *error = nil;
     
@@ -94,9 +95,9 @@
     
     [self.captureSession startRunning];
 }
-
+    
 #pragma mark - AVCapturePhotoCaptureDelegate
-
+    
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection{
     
     [connection setVideoOrientation:AVCaptureVideoOrientationLandscapeRight];
@@ -114,29 +115,29 @@
         [self performRecognitionWithImage:self.imageToProcess];
     }
 }
-
+    
 #pragma recognision part
-
+    
 - (void)performRecognitionWithImage : (UIImage*)originalImage{
     NSArray<GMVTextBlockFeature *> *features = [self.textDectector featuresInImage:originalImage options:nil];
     
     self.viewModel.rawImage = UIImageJPEGRepresentation(originalImage, 0.0);
     
-    self.viewModel.capturedText = @"";
+    self.capturedText = @"";
     for (GMVTextBlockFeature *textBlock in features) {
         // For each text block, iterate over each line.
         for (GMVTextLineFeature *textLine in textBlock.lines) {
-            self.viewModel.capturedText = [self.viewModel.capturedText stringByAppendingString:textLine.value];
-            self.viewModel.capturedText = [self.viewModel.capturedText stringByAppendingString:@"\n"];
+            self.capturedText = [self.capturedText stringByAppendingString:textLine.value];
+            self.capturedText = [self.capturedText stringByAppendingString:@"\n"];
         }
     }
     
     dispatch_async(dispatch_get_main_queue(), ^(void){
         //Run UI Updates
-        self.tvOcrResult.text = self.viewModel.capturedText;
+        self.tvOcrResult.text = self.capturedText;
     });
     
-    if (![[self.viewModel extractCardInformation] isEqualToString:@"NOT_FOUND"]){
+    if (![[self.viewModel extractCardInformationFromString:self.capturedText] isEqualToString:@"NOT_FOUND"]){
         //stop scanning.
         isReadingImage = true;
         
@@ -147,9 +148,9 @@
         isReadingImage = false;
     }
 }
-
+    
 - (IBAction)btnCloseClick:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
-@end
+    
+    @end
