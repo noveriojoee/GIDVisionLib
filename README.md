@@ -1,2 +1,2 @@
 # GIDVisionLib
-OCR Wrapup library 
+This is GIDVisionLib for iOS
