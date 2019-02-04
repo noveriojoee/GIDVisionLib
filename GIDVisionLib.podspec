@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "GIDVisionLib"
-  s.version      = "1.0.4"
+  s.version      = "1.0.5"
   s.summary      = "OCR Wrapup library "
   s.description  = "this library containing OCR capabilities using frame by frame at video capabilities"
 
