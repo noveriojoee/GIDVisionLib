@@ -19,7 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,retain) AVCaptureVideoPreviewLayer *previewLayer;
 @property (nonatomic,retain) AVCaptureDeviceInput *captureInput;
 @property (nonatomic,retain) AVCaptureVideoDataOutput *captureOutput;
-@property (nonatomic,retain) AVCapturePhotoSettings *capturePhotoSetting;
 @property (weak, nonatomic) IBOutlet UITextView *tvOcrResult;
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (weak, nonatomic) IBOutlet UIView *viewOverlay;
