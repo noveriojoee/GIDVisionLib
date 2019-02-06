@@ -10,7 +10,7 @@
 #import "Utility.h"
 #import <AVFoundation/AVFoundation.h>
 
-@interface TakeSelfieViewController ()<AVCapturePhotoCaptureDelegate>
+@interface TakeSelfieViewController ()<AVCaptureVideoDataOutputSampleBufferDelegate>
 @property Utility *util;
 @property (nonatomic,retain) AVCaptureSession *captureSession;
 @property (nonatomic,retain) AVCaptureVideoPreviewLayer *previewLayer;
