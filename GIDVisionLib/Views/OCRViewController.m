@@ -13,41 +13,40 @@
 
 @interface OCRViewController ()<AVCaptureVideoDataOutputSampleBufferDelegate>{
     BOOL isReadingImage;
-    CGRect overlayRect;
 }
-    @property Utility *util;
-    
-    @property (nonatomic, strong) NSOperationQueue *operationQueue;
-    @property (nonatomic,strong) UIImage *imageToProcess;
-    @property (nonatomic, strong) GMVDetector *textDectector;
-    @property (atomic, strong) NSString* capturedText;
-    @property UIView *originalView;
-    
-    @end
+@property Utility *util;
+@property CGRect overlayRect;
+@property (nonatomic, strong) NSOperationQueue *operationQueue;
+@property (nonatomic,strong) UIImage *imageToProcess;
+@property (nonatomic, strong) GMVDetector *textDectector;
+@property (atomic, strong) NSString* capturedText;
+@property UIView *originalView;
+
+@end
 
 @implementation OCRViewController
-    
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.util = [Utility new];
     
     self.imageToProcess = nil;
     //noverio remark begin : to rotate object
-    //    self.textResult.transform = CGAffineTransformMakeRotation(M_PI_2);
+    self.btnClose.transform = CGAffineTransformMakeRotation(M_PI_2);
     self.operationQueue = [[NSOperationQueue alloc] init];
     self.viewOverlay.layer.borderColor = [UIColor blackColor].CGColor;
+    self.viewOverlay.layer.cornerRadius = 10;
     self.viewOverlay.layer.borderWidth = 1;
     self.textDectector = [GMVDetector detectorOfType:GMVDetectorTypeText options:nil];
-    
-    [self initCapture];
 }
-    
+
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    overlayRect = self.viewOverlay.frame;
+    self.overlayRect = self.viewOverlay.frame;
     self.originalView = self.view;
+    [self initCapture];
 }
-    
+
 - (void)initCapture {
     NSError *error = nil;
     
@@ -95,9 +94,9 @@
     
     [self.captureSession startRunning];
 }
-    
+
 #pragma mark - AVCapturePhotoCaptureDelegate
-    
+
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection{
     
     [connection setVideoOrientation:AVCaptureVideoOrientationLandscapeRight];
@@ -107,7 +106,7 @@
         UIImage *originalImage = [self.util imageFromSampleBuffer:sampleBuffer];
         UIImage *scaledImage = [self.util resizeImage:originalImage];
         
-        UIImage *cropImageInScanArea = [self.util cropImageToTheScanAreaOnly:overlayRect originalView:self.originalView forImage:scaledImage];
+        UIImage *cropImageInScanArea = [self.util cropImageToTheScanAreaOnly:self.overlayRect originalView:self.originalView forImage:scaledImage];
         
         self.imageToProcess = [UIImage imageWithCGImage:[cropImageInScanArea CGImage]
                                                   scale:[cropImageInScanArea scale]
@@ -115,9 +114,9 @@
         [self performRecognitionWithImage:self.imageToProcess];
     }
 }
-    
+
 #pragma recognision part
-    
+
 - (void)performRecognitionWithImage : (UIImage*)originalImage{
     NSArray<GMVTextBlockFeature *> *features = [self.textDectector featuresInImage:originalImage options:nil];
     
@@ -132,11 +131,6 @@
         }
     }
     
-    dispatch_async(dispatch_get_main_queue(), ^(void){
-        //Run UI Updates
-        self.tvOcrResult.text = self.capturedText;
-    });
-    
     if (![[self.viewModel extractCardInformationFromString:self.capturedText] isEqualToString:@"NOT_FOUND"]){
         //stop scanning.
         isReadingImage = true;
@@ -148,9 +142,9 @@
         isReadingImage = false;
     }
 }
-    
+
 - (IBAction)btnCloseClick:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-    
-    @end
+
+@end
