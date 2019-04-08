@@ -69,20 +69,22 @@
     return image;
 }
 
-- (UIImage *) cropImageToTheScanAreaOnly:(CGRect)scanAreaFrame originalView : (UIView *)view forImage:(UIImage *)image
+- (UIImage *) cropImageToTheScanAreaOnly:(CGRect)scanAreaFrame originalView : (CGRect)viewFrame forImage:(UIImage *)image
 {
     //get value in % from main view then convert capture frame with relation to image size
-    float topMargin = scanAreaFrame.origin.y/view.frame.size.height;
-    float bottomMargin = ((scanAreaFrame.origin.y + scanAreaFrame.size.height)-view.frame.size.height)/view.frame.size.height;
-    float leftMargin = scanAreaFrame.origin.x/view.frame.size.width;
-    float rightMargin = ((scanAreaFrame.origin.x+scanAreaFrame.size.width)-view.frame.size.width)/view.frame.size.width;
+    float topMargin = scanAreaFrame.origin.y/viewFrame.size.height;
+    float bottomMargin = ((scanAreaFrame.origin.y + scanAreaFrame.size.height)-viewFrame.size.height)/viewFrame.size.height;
+    float leftMargin = scanAreaFrame.origin.x/viewFrame.size.width;
+    float rightMargin = ((scanAreaFrame.origin.x+scanAreaFrame.size.width)-viewFrame.size.width)/viewFrame.size.width;
     float newLeft = image.size.width * leftMargin;
     float newRight = image.size.width * rightMargin;
     float newTop = image.size.height * topMargin;
     float newBottom = image.size.height *bottomMargin;
     float newWidth = image.size.width - newLeft - newRight;
     float newHeight = image.size.height - newTop - newBottom;
+    
     CGRect newFrame = CGRectMake(newLeft, newTop, newWidth, newHeight);
+    
     
     CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], newFrame);
     UIImage *croppedImage = [UIImage imageWithCGImage:imageRef];
@@ -133,9 +135,16 @@
     NSString *NPWP = @"NOT_FOUND";
     
     NSString *REGEX_NPWP = @"[0-9]{2}[.][0-9]{3}[.][0-9]{3}[.][0-9][-][0-9]{3}[.][0-9]{3}";
+    
+    NSString *REGEX_NPWP1 = @"[0-9]{2}[.][0-9]{3}[.][0-9]{3}[.][0-9][.][0-9]{3}[.][0-9]{3}";
+    
     NSString *regexReturn = [self extractWithRegex:REGEX_NPWP result:ScanResult];
+    NSString *regextReturn1 = [self extractWithRegex:REGEX_NPWP1 result:ScanResult];
     if (regexReturn.length == 20) {
         NPWP = regexReturn;
+    }
+    if (regextReturn1.length == 20){
+        NPWP = regextReturn1;
     }
     return NPWP;
 }

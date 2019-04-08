@@ -34,17 +34,17 @@
     
     
 -(NSString*)extractCardInformationFromString : (NSString*) strInput{
-    self.capturedText = @"";
+    NSString* result = @"";
     if ([self.ocrMode isEqualToString:@"DEBIT_CARD"]){
-        self.capturedText = [self.util extractDebitCardNumber:strInput];
+        result = [self.util extractDebitCardNumber:strInput];
     }else if([self.ocrMode isEqualToString:@"KTP"]){
-        self.capturedText = [self.util extractNIK:strInput];
+        result = [self.util extractNIK:strInput];
     }else if([self.ocrMode isEqualToString:@"NPWP"]){
-        self.capturedText = [self.util extractNPWP:strInput];
+        result = [self.util extractNPWP:strInput];
     }else{
-        self.capturedText = @"NOT_FOUND";
+        result = @"NOT_FOUND";
     }
-    return self.capturedText;
+    return result;
 }
     
     

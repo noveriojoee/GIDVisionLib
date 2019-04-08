@@ -13,7 +13,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OCRViewController">
             <connections>
                 <outlet property="btnClose" destination="hAT-ZM-Dcc" id="ZYh-2L-7CZ"/>
-                <outlet property="cameraView" destination="nf4-ic-HGT" id="r8r-NH-RA9"/>
+                <outlet property="cameraView" destination="nf4-ic-HGT" id="3LI-Zy-7kd"/>
+                <outlet property="uiViewPasFoto" destination="BKW-3O-ayg" id="Ekk-CU-87N"/>
                 <outlet property="view" destination="Xpi-Sa-8T2" id="tJo-oP-i9C"/>
                 <outlet property="viewOverlay" destination="Uft-Ci-gdn" id="fGj-ug-qxx"/>
             </connections>
@@ -65,7 +66,21 @@
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uft-Ci-gdn">
                     <rect key="frame" x="62.5" y="133.5" width="250" height="400"/>
+                    <subviews>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BKW-3O-ayg">
+                            <rect key="frame" x="93" y="286" width="107" height="84"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="84" id="XRS-og-7XM"/>
+                                <constraint firstAttribute="width" constant="107" id="t8I-AU-29U"/>
+                            </constraints>
+                        </view>
+                    </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="BKW-3O-ayg" secondAttribute="bottom" constant="30" id="2om-Nr-m4u"/>
+                        <constraint firstAttribute="trailing" secondItem="BKW-3O-ayg" secondAttribute="trailing" constant="50" id="gY6-tz-aRE"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

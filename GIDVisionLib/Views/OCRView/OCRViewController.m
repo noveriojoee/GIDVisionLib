@@ -8,6 +8,7 @@
 
 #import "OCRViewController.h"
 #import "Utility.h"
+#import "UIImage+Cropping.h"
 #import <GoogleMobileVision/GoogleMobileVision.h>
 
 
@@ -15,18 +16,34 @@
     BOOL isReadingImage;
 }
 @property Utility *util;
+@property UIView* uiViewTextDetectionIndicatorOverlay;
+@property CGRect uiViewTextDetectionIndicatorOverlayFrame;
 @property CGRect overlayRect;
+@property CGRect overlayRectBounds;
+@property CGRect cameraViewBoundsSize;
+@property CGRect originalViewFrame;
+@property CGRect overlayTextViewFrame;
+
+@property UIView *originalView;
+@property UIView* overlayTextView;
+@property float contanstPosition;
+
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
 @property (nonatomic,strong) UIImage *imageToProcess;
 @property (nonatomic, strong) GMVDetector *textDectector;
 @property (atomic, strong) NSString* capturedText;
-@property UIView *originalView;
+@property (weak, nonatomic) IBOutlet UIView *uiViewPasFoto;
+
+
+@property int counter;
+@property int radius;
+@property int scanningTresshold;
 
 @end
 
 @implementation OCRViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad{
     [super viewDidLoad];
     self.util = [Utility new];
     
@@ -38,13 +55,42 @@
     self.viewOverlay.layer.cornerRadius = 10;
     self.viewOverlay.layer.borderWidth = 1;
     self.textDectector = [GMVDetector detectorOfType:GMVDetectorTypeText options:nil];
+    self.counter = 0;
+    self.radius = 10;
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     self.overlayRect = self.viewOverlay.frame;
+    self.overlayRectBounds = self.viewOverlay.bounds;
     self.originalView = self.view;
+    self.cameraViewBoundsSize = self.cameraView.bounds;
+    self.originalViewFrame = self.originalView.frame;
+    self.uiViewPasFoto.layer.borderWidth = 1;
+    self.uiViewPasFoto.layer.borderColor = [UIColor blackColor].CGColor;
+    if ([self.viewModel.ocrMode isEqualToString:@"KTP"]){
+        self.uiViewTextDetectionIndicatorOverlay = [self createReadedTextIndicator];
+        self.uiViewTextDetectionIndicatorOverlayFrame = self.uiViewTextDetectionIndicatorOverlay.frame;
+        self.contanstPosition = 15;
+        self.uiViewPasFoto.hidden = NO;
+        self.scanningTresshold = 10;
+    }else{
+        self.contanstPosition = 0;
+        self.scanningTresshold = 50;
+        self.uiViewPasFoto.hidden = YES;
+    }
+    [self.viewOverlay addSubview:self.uiViewTextDetectionIndicatorOverlay];
     [self initCapture];
+}
+
+-(UIView*)createReadedTextIndicator{
+    UIView* result = [[UIView alloc] initWithFrame:CGRectMake(185, 97, 6, 160)];
+    result.frame = CGRectMake(190, 60, 20, 200);
+    result.layer.borderColor = [UIColor greenColor].CGColor;
+    result.layer.borderWidth = 1;
+    result.clipsToBounds = YES;
+    
+    return result;
 }
 
 - (void)initCapture {
@@ -104,14 +150,14 @@
     if (isReadingImage == false){
         isReadingImage = true;
         UIImage *originalImage = [self.util imageFromSampleBuffer:sampleBuffer];
-        UIImage *scaledImage = [self.util resizeImage:originalImage];
         
-        UIImage *cropImageInScanArea = [self.util cropImageToTheScanAreaOnly:self.overlayRect originalView:self.originalView forImage:scaledImage];
+        UIImage* rotatedImage = [UIImage imageWithCGImage:[originalImage CGImage]
+                                                    scale:[originalImage scale]
+                                              orientation: UIImageOrientationRight];
         
-        self.imageToProcess = [UIImage imageWithCGImage:[cropImageInScanArea CGImage]
-                                                  scale:[cropImageInScanArea scale]
-                                            orientation: UIImageOrientationUp];
-        [self performRecognitionWithImage:self.imageToProcess];
+        UIImage* cropImageInScanArea = [rotatedImage cropRectangle:self.overlayRect inFrame:self.originalViewFrame.size];
+        
+        [self performRecognitionWithImage:cropImageInScanArea];
     }
 }
 
@@ -120,27 +166,67 @@
 - (void)performRecognitionWithImage : (UIImage*)originalImage{
     NSArray<GMVTextBlockFeature *> *features = [self.textDectector featuresInImage:originalImage options:nil];
     
-    self.viewModel.rawImage = UIImageJPEGRepresentation(originalImage, 0.0);
-    
-    self.capturedText = @"";
+    NSString* readedText = @"";
+    NSString* recognizedText = @"";
     for (GMVTextBlockFeature *textBlock in features) {
         // For each text block, iterate over each line.
         for (GMVTextLineFeature *textLine in textBlock.lines) {
-            self.capturedText = [self.capturedText stringByAppendingString:textLine.value];
-            self.capturedText = [self.capturedText stringByAppendingString:@"\n"];
+            readedText = [readedText stringByAppendingString:textLine.value];
+            readedText = [readedText stringByAppendingString:@" \n"];
+            if (![[self.viewModel extractCardInformationFromString:textLine.value] isEqualToString:@"NOT_FOUND"]){
+                [self drawRectacngleOverlayWithRect:textLine.bounds];
+            }
         }
     }
     
-    if (![[self.viewModel extractCardInformationFromString:self.capturedText] isEqualToString:@"NOT_FOUND"]){
-        //stop scanning.
-        isReadingImage = true;
-        
-        NSString* stringBase64 = [self.viewModel.rawImage base64EncodedStringWithOptions:NSUTF8StringEncoding];
-        [self.delegate onCompletedWithResult:self.viewModel.capturedText image:stringBase64 viewController:self];
+    recognizedText = [self.viewModel extractCardInformationFromString:readedText];
+    
+    if ((self.overlayTextViewFrame.origin.x < self.uiViewTextDetectionIndicatorOverlayFrame.origin.x + self.radius  && self.overlayTextViewFrame.origin.x > self.uiViewTextDetectionIndicatorOverlayFrame.origin.x - self.radius  )
+        && (self.overlayTextViewFrame.origin.y  < self.uiViewTextDetectionIndicatorOverlayFrame.origin.y + self.radius  && self.overlayTextViewFrame.origin.y > self.uiViewTextDetectionIndicatorOverlayFrame.origin.y - self.radius )){
+        if (![recognizedText isEqualToString:@"NOT_FOUND"]){
+            self.counter = self.counter + 1;
+            if (self.counter >= self.scanningTresshold){
+                //stop scanning.
+                UIImage* rotatedImageUp = [UIImage imageWithCGImage:[originalImage CGImage]
+                                                              scale:[originalImage scale]
+                                                        orientation: UIImageOrientationUp];
+                
+                self.viewModel.rawImage = UIImageJPEGRepresentation(rotatedImageUp, 0.0);
+                
+                self.viewModel.capturedText = recognizedText;
+                isReadingImage = true;
+                NSString* stringBase64 = [self.viewModel.rawImage base64EncodedStringWithOptions:NSUTF8StringEncoding];
+                [self.delegate onCompletedWithResult:self.viewModel.capturedText image:stringBase64 viewController:self];
+            }else{
+                //continue scanning
+                isReadingImage = false;
+            }
+        }else{
+            //continue scanning
+            isReadingImage = false;
+        }
     }else{
         //continue scanning
         isReadingImage = false;
     }
+}
+
+-(void)drawRectacngleOverlayWithRect:(CGRect)rectangle{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        if (self.overlayTextView != nil){
+            [self.overlayTextView removeFromSuperview];
+        }
+        self.overlayTextView = [[UIView alloc] initWithFrame:rectangle];
+        
+        self.overlayTextViewFrame = CGRectMake(self.overlayRectBounds.size.width - (rectangle.origin.y - self.contanstPosition), self.overlayRectBounds.origin.y + rectangle.origin.x, rectangle.size.height, rectangle.size.width + 5);
+        self.overlayTextView.frame = self.overlayTextViewFrame;
+        
+        self.overlayTextView.layer.borderColor = [UIColor blackColor].CGColor;
+        self.overlayTextView.layer.borderWidth = 1;
+        
+        [self.viewOverlay addSubview:self.overlayTextView];
+    });
 }
 
 - (IBAction)btnCloseClick:(id)sender {
