@@ -18,6 +18,7 @@
 @property Utility *util;
 @property UIView* uiViewTextDetectionIndicatorOverlay;
 @property CGRect uiViewTextDetectionIndicatorOverlayFrame;
+@property CGPoint uiViewTextDetectionIndicatorOverlayCenterPoint;
 @property CGRect overlayRect;
 @property CGRect overlayRectBounds;
 @property CGRect cameraViewBoundsSize;
@@ -25,7 +26,8 @@
 @property CGRect overlayTextViewFrame;
 
 @property UIView *originalView;
-@property UIView* overlayTextView;
+@property UIView *overlayTextView;
+@property CGPoint overlayTextViewCenterPoint;
 @property float contanstPosition;
 
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
@@ -56,7 +58,7 @@
     self.viewOverlay.layer.borderWidth = 1;
     self.textDectector = [GMVDetector detectorOfType:GMVDetectorTypeText options:nil];
     self.counter = 0;
-    self.radius = 10;
+    self.radius = 20;
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -66,17 +68,19 @@
     self.originalView = self.view;
     self.cameraViewBoundsSize = self.cameraView.bounds;
     self.originalViewFrame = self.originalView.frame;
+    
     self.uiViewPasFoto.layer.borderWidth = 1;
     self.uiViewPasFoto.layer.borderColor = [UIColor blackColor].CGColor;
     if ([self.viewModel.ocrMode isEqualToString:@"KTP"]){
         self.uiViewTextDetectionIndicatorOverlay = [self createReadedTextIndicator];
         self.uiViewTextDetectionIndicatorOverlayFrame = self.uiViewTextDetectionIndicatorOverlay.frame;
+        self.uiViewTextDetectionIndicatorOverlayCenterPoint = self.uiViewTextDetectionIndicatorOverlay.center;
         self.contanstPosition = 15;
         self.uiViewPasFoto.hidden = NO;
         self.scanningTresshold = 10;
     }else{
         self.contanstPosition = 0;
-        self.scanningTresshold = 50;
+        self.scanningTresshold = 15;
         self.uiViewPasFoto.hidden = YES;
     }
     [self.viewOverlay addSubview:self.uiViewTextDetectionIndicatorOverlay];
@@ -85,9 +89,9 @@
 
 -(UIView*)createReadedTextIndicator{
     UIView* result = [[UIView alloc] initWithFrame:CGRectMake(185, 97, 6, 160)];
-    result.frame = CGRectMake(190, 60, 20, 200);
-    result.layer.borderColor = [UIColor greenColor].CGColor;
-    result.layer.borderWidth = 1;
+    result.frame = CGRectMake(190, 90, 20, 180);
+//    result.layer.borderColor = [UIColor blackColor].CGColor;
+//    result.layer.borderWidth = 1;
     result.clipsToBounds = YES;
     
     return result;
@@ -179,13 +183,22 @@
         }
     }
     
-    recognizedText = [self.viewModel extractCardInformationFromString:readedText];
-    
-    if ((self.overlayTextViewFrame.origin.x < self.uiViewTextDetectionIndicatorOverlayFrame.origin.x + self.radius  && self.overlayTextViewFrame.origin.x > self.uiViewTextDetectionIndicatorOverlayFrame.origin.x - self.radius  )
-        && (self.overlayTextViewFrame.origin.y  < self.uiViewTextDetectionIndicatorOverlayFrame.origin.y + self.radius  && self.overlayTextViewFrame.origin.y > self.uiViewTextDetectionIndicatorOverlayFrame.origin.y - self.radius )){
+    if ([self.viewModel.capturedText length]<=0){
+        //if Text not captured already, find the text
+        recognizedText = [self.viewModel extractCardInformationFromString:readedText];
         if (![recognizedText isEqualToString:@"NOT_FOUND"]){
             self.counter = self.counter + 1;
             if (self.counter >= self.scanningTresshold){
+                //captured text
+                self.viewModel.capturedText = recognizedText;
+            }
+        }
+        //continue scanning
+        isReadingImage = false;
+    }else if ([self.viewModel.capturedText length] > 0){
+        if ([self.viewModel.ocrMode isEqualToString:@"KTP"]){
+            //Search for best image
+            if ([self isThisArea:self.overlayTextViewCenterPoint containInThisArea:self.uiViewTextDetectionIndicatorOverlayCenterPoint]){
                 //stop scanning.
                 UIImage* rotatedImageUp = [UIImage imageWithCGImage:[originalImage CGImage]
                                                               scale:[originalImage scale]
@@ -193,19 +206,29 @@
                 
                 self.viewModel.rawImage = UIImageJPEGRepresentation(rotatedImageUp, 0.0);
                 
-                self.viewModel.capturedText = recognizedText;
                 isReadingImage = true;
                 NSString* stringBase64 = [self.viewModel.rawImage base64EncodedStringWithOptions:NSUTF8StringEncoding];
                 [self.delegate onCompletedWithResult:self.viewModel.capturedText image:stringBase64 viewController:self];
-            }else{
+            }
+            else{
                 //continue scanning
                 isReadingImage = false;
             }
-        }else{
-            //continue scanning
-            isReadingImage = false;
         }
-    }else{
+        else{
+            //stop scanning.
+            UIImage* rotatedImageUp = [UIImage imageWithCGImage:[originalImage CGImage]
+                                                          scale:[originalImage scale]
+                                                    orientation: UIImageOrientationUp];
+            
+            self.viewModel.rawImage = UIImageJPEGRepresentation(rotatedImageUp, 0.0);
+            
+            isReadingImage = true;
+            NSString* stringBase64 = [self.viewModel.rawImage base64EncodedStringWithOptions:NSUTF8StringEncoding];
+            [self.delegate onCompletedWithResult:self.viewModel.capturedText image:stringBase64 viewController:self];
+        }
+    }
+    else{
         //continue scanning
         isReadingImage = false;
     }
@@ -224,9 +247,18 @@
         
         self.overlayTextView.layer.borderColor = [UIColor blackColor].CGColor;
         self.overlayTextView.layer.borderWidth = 1;
-        
+        self.overlayTextViewCenterPoint = self.overlayTextView.center;
         [self.viewOverlay addSubview:self.overlayTextView];
     });
+}
+
+-(BOOL)isThisArea : (CGPoint)targetArea containInThisArea:(CGPoint)scopeArea{
+    if ((targetArea.x < scopeArea.x + self.radius  && targetArea.x > scopeArea.x - self.radius  )
+        && (targetArea.y  < scopeArea.y + self.radius  && targetArea.y > scopeArea.y - self.radius )){
+        return YES;
+    }else{
+        return false;
+    }
 }
 
 - (IBAction)btnCloseClick:(id)sender {
