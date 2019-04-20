@@ -35,6 +35,7 @@
 @property (nonatomic, strong) GMVDetector *textDectector;
 @property (atomic, strong) NSString* capturedText;
 @property (weak, nonatomic) IBOutlet UIView *uiViewPasFoto;
+@property (weak, nonatomic) IBOutlet UILabel *lblKeterangan;
 
 
 @property int counter;
@@ -52,6 +53,7 @@
     self.imageToProcess = nil;
     //noverio remark begin : to rotate object
     self.btnClose.transform = CGAffineTransformMakeRotation(M_PI_2);
+    self.lblKeterangan.transform = CGAffineTransformMakeRotation(M_PI_2);
     self.operationQueue = [[NSOperationQueue alloc] init];
     self.viewOverlay.layer.borderColor = [UIColor blackColor].CGColor;
     self.viewOverlay.layer.cornerRadius = 10;
@@ -72,12 +74,14 @@
     self.uiViewPasFoto.layer.borderWidth = 1;
     self.uiViewPasFoto.layer.borderColor = [UIColor blackColor].CGColor;
     if ([self.viewModel.ocrMode isEqualToString:@"KTP"]){
-        self.uiViewTextDetectionIndicatorOverlay = [self createReadedTextIndicator];
-        self.uiViewTextDetectionIndicatorOverlayFrame = self.uiViewTextDetectionIndicatorOverlay.frame;
-        self.uiViewTextDetectionIndicatorOverlayCenterPoint = self.uiViewTextDetectionIndicatorOverlay.center;
+        //remove nik rectangle begin
+//        self.uiViewTextDetectionIndicatorOverlay = [self createReadedTextIndicator];
+//        self.uiViewTextDetectionIndicatorOverlayFrame = self.uiViewTextDetectionIndicatorOverlay.frame;
+//        self.uiViewTextDetectionIndicatorOverlayCenterPoint = self.uiViewTextDetectionIndicatorOverlay.center;
+        //remove nik rectangle end
         self.contanstPosition = 0;
         self.uiViewPasFoto.hidden = NO;
-        self.scanningTresshold = 10;
+        self.scanningTresshold = 15;
     }else{
         self.contanstPosition = 0;
         self.scanningTresshold = 15;
@@ -175,63 +179,35 @@
     for (GMVTextBlockFeature *textBlock in features) {
         // For each text block, iterate over each line.
         for (GMVTextLineFeature *textLine in textBlock.lines) {
-            readedText = [readedText stringByAppendingString:textLine.value];
-            readedText = [readedText stringByAppendingString:@" \n"];
-            if (![[self.viewModel extractCardInformationFromString:textLine.value] isEqualToString:@"NOT_FOUND"]){
+            readedText = [self.viewModel extractCardInformationFromString:textLine.value];
+            if (![readedText isEqualToString:@"NOT_FOUND"]){
+                self.counter = self.counter + 1;
+                recognizedText = readedText;
                 [self drawRectacngleOverlayWithRect:textLine.bounds];
             }
         }
     }
     
-    if ([self.viewModel.capturedText length]<=0){
-        //if Text not captured already, find the text
-        recognizedText = [self.viewModel extractCardInformationFromString:readedText];
-        if (![recognizedText isEqualToString:@"NOT_FOUND"]){
-            self.counter = self.counter + 1;
-            if (self.counter >= self.scanningTresshold){
-                //captured text
-                self.viewModel.capturedText = recognizedText;
-            }
-        }
-        //continue scanning
-        isReadingImage = false;
-    }else if ([self.viewModel.capturedText length] > 0){
-        if ([self.viewModel.ocrMode isEqualToString:@"KTP"]){
-            //Search for best image
-            if ([self isThisArea:self.overlayTextViewCenterPoint containInThisArea:self.uiViewTextDetectionIndicatorOverlayCenterPoint]){
-                //stop scanning.
-                UIImage* rotatedImageUp = [UIImage imageWithCGImage:[originalImage CGImage]
-                                                              scale:[originalImage scale]
-                                                        orientation: UIImageOrientationUp];
-                
-                self.viewModel.rawImage = UIImageJPEGRepresentation(rotatedImageUp, 0.0);
-                
-                isReadingImage = true;
-                NSString* stringBase64 = [self.viewModel.rawImage base64EncodedStringWithOptions:NSUTF8StringEncoding];
-                [self.delegate onCompletedWithResult:self.viewModel.capturedText image:stringBase64 viewController:self];
-            }
-            else{
-                //continue scanning
-                isReadingImage = false;
-            }
-        }
-        else{
-            //stop scanning.
-            UIImage* rotatedImageUp = [UIImage imageWithCGImage:[originalImage CGImage]
-                                                          scale:[originalImage scale]
-                                                    orientation: UIImageOrientationUp];
-            
-            self.viewModel.rawImage = UIImageJPEGRepresentation(rotatedImageUp, 0.0);
-            
-            isReadingImage = true;
-            NSString* stringBase64 = [self.viewModel.rawImage base64EncodedStringWithOptions:NSUTF8StringEncoding];
-            [self.delegate onCompletedWithResult:self.viewModel.capturedText image:stringBase64 viewController:self];
-        }
-    }
-    else{
+    if (self.counter >= self.scanningTresshold){
+        //captured text
+        self.viewModel.capturedText = recognizedText;
+        //stop scanning.
+        UIImage* rotatedImageUp = [UIImage imageWithCGImage:[originalImage CGImage]
+                                                      scale:[originalImage scale]
+                                                orientation: UIImageOrientationUp];
+        
+        self.viewModel.rawImage = UIImageJPEGRepresentation(rotatedImageUp, 0.0);
+        
+        isReadingImage = true;
+        [self.captureSession stopRunning];
+        NSString* stringBase64 = [self.viewModel.rawImage base64EncodedStringWithOptions:NSUTF8StringEncoding];
+        [self.delegate onCompletedWithResult:self.viewModel.capturedText image:stringBase64 viewController:self];
+        
+    }else{
         //continue scanning
         isReadingImage = false;
     }
+    
 }
 
 -(void)drawRectacngleOverlayWithRect:(CGRect)rectangle{

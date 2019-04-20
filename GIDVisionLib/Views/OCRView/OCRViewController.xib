@@ -14,6 +14,7 @@
             <connections>
                 <outlet property="btnClose" destination="hAT-ZM-Dcc" id="ZYh-2L-7CZ"/>
                 <outlet property="cameraView" destination="nf4-ic-HGT" id="3LI-Zy-7kd"/>
+                <outlet property="lblKeterangan" destination="cxx-Fc-Cao" id="oSs-mV-l5D"/>
                 <outlet property="uiViewPasFoto" destination="BKW-3O-ayg" id="Ekk-CU-87N"/>
                 <outlet property="view" destination="Xpi-Sa-8T2" id="tJo-oP-i9C"/>
                 <outlet property="viewOverlay" destination="Uft-Ci-gdn" id="fGj-ug-qxx"/>
@@ -75,10 +76,22 @@
                                 <constraint firstAttribute="width" constant="107" id="t8I-AU-29U"/>
                             </constraints>
                         </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Arahkan Kartu Pada Area Pemindai" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cxx-Fc-Cao">
+                            <rect key="frame" x="83" y="175" width="317" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="317" id="RHd-5O-fzX"/>
+                                <constraint firstAttribute="height" constant="50" id="a2M-O8-pPF"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="BKW-3O-ayg" secondAttribute="bottom" constant="30" id="2om-Nr-m4u"/>
+                        <constraint firstAttribute="trailing" secondItem="cxx-Fc-Cao" secondAttribute="trailing" constant="-150" id="Gcw-DI-eGc"/>
+                        <constraint firstItem="cxx-Fc-Cao" firstAttribute="centerY" secondItem="Uft-Ci-gdn" secondAttribute="centerY" id="Zdl-TE-XuD"/>
                         <constraint firstAttribute="trailing" secondItem="BKW-3O-ayg" secondAttribute="trailing" constant="50" id="gY6-tz-aRE"/>
                     </constraints>
                 </view>
