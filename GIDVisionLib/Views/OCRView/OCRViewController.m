@@ -75,7 +75,7 @@
         self.uiViewTextDetectionIndicatorOverlay = [self createReadedTextIndicator];
         self.uiViewTextDetectionIndicatorOverlayFrame = self.uiViewTextDetectionIndicatorOverlay.frame;
         self.uiViewTextDetectionIndicatorOverlayCenterPoint = self.uiViewTextDetectionIndicatorOverlay.center;
-        self.contanstPosition = 15;
+        self.contanstPosition = 0;
         self.uiViewPasFoto.hidden = NO;
         self.scanningTresshold = 10;
     }else{
@@ -90,8 +90,8 @@
 -(UIView*)createReadedTextIndicator{
     UIView* result = [[UIView alloc] initWithFrame:CGRectMake(185, 97, 6, 160)];
     result.frame = CGRectMake(190, 90, 20, 180);
-//    result.layer.borderColor = [UIColor blackColor].CGColor;
-//    result.layer.borderWidth = 1;
+    result.layer.borderColor = [UIColor greenColor].CGColor;
+    result.layer.borderWidth = 1;
     result.clipsToBounds = YES;
     
     return result;
