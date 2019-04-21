@@ -18,4 +18,5 @@ FOUNDATION_EXPORT const unsigned char GIDVisionLibVersionString[];
 #import <GIDVisionLib/Utility.h>
 #import <GIDVisionLib/OCRViewController.h>
 #import <GIDVisionLib/TakeSelfieViewController.h>
+#import <GIDVisionLib/TakeSignatureViewController.h>
 

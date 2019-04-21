@@ -26,6 +26,9 @@
 		DEED835621E758A400DD1AF5 /* GIDOcrProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = DEED835521E758A400DD1AF5 /* GIDOcrProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DEF9940221E738D700FA9A91 /* OCRViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = DEF9940021E738D700FA9A91 /* OCRViewModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DEF9940321E738D700FA9A91 /* OCRViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF9940121E738D700FA9A91 /* OCRViewModel.m */; };
+		DEFD81D9226C681C0013D242 /* TakeSignatureViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = DEFD81D6226C681C0013D242 /* TakeSignatureViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DEFD81DA226C681C0013D242 /* TakeSignatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEFD81D7226C681C0013D242 /* TakeSignatureViewController.m */; };
+		DEFD81DB226C681C0013D242 /* TakeSignatureViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DEFD81D8226C681C0013D242 /* TakeSignatureViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +56,9 @@
 		DEED835521E758A400DD1AF5 /* GIDOcrProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIDOcrProtocol.h; sourceTree = "<group>"; };
 		DEF9940021E738D700FA9A91 /* OCRViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCRViewModel.h; sourceTree = "<group>"; };
 		DEF9940121E738D700FA9A91 /* OCRViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OCRViewModel.m; sourceTree = "<group>"; };
+		DEFD81D6226C681C0013D242 /* TakeSignatureViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TakeSignatureViewController.h; sourceTree = "<group>"; };
+		DEFD81D7226C681C0013D242 /* TakeSignatureViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TakeSignatureViewController.m; sourceTree = "<group>"; };
+		DEFD81D8226C681C0013D242 /* TakeSignatureViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TakeSignatureViewController.xib; sourceTree = "<group>"; };
 		E6D0AD226918626E8DFC6A92 /* Pods-GIDVisionLib.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GIDVisionLib.release.xcconfig"; path = "Pods/Target Support Files/Pods-GIDVisionLib/Pods-GIDVisionLib.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -172,6 +178,7 @@
 		DEE05C2321E34F4F0055B105 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DEFD81D5226C68040013D242 /* CaptureSignatureView */,
 				DE0BC447220B1281007C0833 /* CustomView */,
 				DE0BC440220B01AE007C0833 /* SelfieView */,
 				DE0BC43F220B019D007C0833 /* OCRView */,
@@ -203,6 +210,16 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		DEFD81D5226C68040013D242 /* CaptureSignatureView */ = {
+			isa = PBXGroup;
+			children = (
+				DEFD81D6226C681C0013D242 /* TakeSignatureViewController.h */,
+				DEFD81D7226C681C0013D242 /* TakeSignatureViewController.m */,
+				DEFD81D8226C681C0013D242 /* TakeSignatureViewController.xib */,
+			);
+			path = CaptureSignatureView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -217,6 +234,7 @@
 				DE0BC44E220B12B1007C0833 /* SelfieCardFrame.h in Headers */,
 				DE53A532225AFDB6003D43CC /* UIImage+Cropping.h in Headers */,
 				DE0BC44A220B12A0007C0833 /* SelfieFaceFrame.h in Headers */,
+				DEFD81D9226C681C0013D242 /* TakeSignatureViewController.h in Headers */,
 				DE0BC444220B01D2007C0833 /* TakeSelfieViewController.h in Headers */,
 				DEE05C2021E34EFC0055B105 /* OCRViewController.h in Headers */,
 			);
@@ -283,6 +301,7 @@
 			files = (
 				DEE05C2221E34EFC0055B105 /* OCRViewController.xib in Resources */,
 				DE0BC446220B01D2007C0833 /* TakeSelfieViewController.xib in Resources */,
+				DEFD81DB226C681C0013D242 /* TakeSignatureViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,6 +365,7 @@
 				DE2A470421E33A1400026949 /* Utility.m in Sources */,
 				DE0BC44F220B12B1007C0833 /* SelfieCardFrame.m in Sources */,
 				DEE05C2121E34EFC0055B105 /* OCRViewController.m in Sources */,
+				DEFD81DA226C681C0013D242 /* TakeSignatureViewController.m in Sources */,
 				DE0BC44B220B12A0007C0833 /* SelfieFaceFrame.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
