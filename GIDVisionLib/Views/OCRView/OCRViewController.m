@@ -37,11 +37,11 @@
 @property (weak, nonatomic) IBOutlet UIView *uiViewPasFoto;
 @property (weak, nonatomic) IBOutlet UILabel *lblKeterangan;
 
-
-@property int counter;
+@property int counterFounded;
+@property int scanningCounter;
 @property int radius;
 @property int scanningTresshold;
-
+@property int scanningMaxTresshold;
 @end
 
 @implementation OCRViewController
@@ -59,8 +59,9 @@
     self.viewOverlay.layer.cornerRadius = 10;
     self.viewOverlay.layer.borderWidth = 1;
     self.textDectector = [GMVDetector detectorOfType:GMVDetectorTypeText options:nil];
-    self.counter = 0;
-    self.radius = 20;
+    self.counterFounded = 0;
+    self.scanningCounter = 0;
+    self.radius = 15;
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -75,18 +76,19 @@
     self.uiViewPasFoto.layer.borderColor = [UIColor blackColor].CGColor;
     if ([self.viewModel.ocrMode isEqualToString:@"KTP"]){
         //remove nik rectangle begin
-//        self.uiViewTextDetectionIndicatorOverlay = [self createReadedTextIndicator];
-//        self.uiViewTextDetectionIndicatorOverlayFrame = self.uiViewTextDetectionIndicatorOverlay.frame;
-//        self.uiViewTextDetectionIndicatorOverlayCenterPoint = self.uiViewTextDetectionIndicatorOverlay.center;
+        self.uiViewTextDetectionIndicatorOverlay = [self createReadedTextIndicator];
+        self.uiViewTextDetectionIndicatorOverlayFrame = self.uiViewTextDetectionIndicatorOverlay.frame;
+        self.uiViewTextDetectionIndicatorOverlayCenterPoint = self.uiViewTextDetectionIndicatorOverlay.center;
         //remove nik rectangle end
         self.contanstPosition = 0;
         self.uiViewPasFoto.hidden = NO;
-        self.scanningTresshold = 15;
+        self.scanningTresshold = 10;
     }else{
         self.contanstPosition = 0;
         self.scanningTresshold = 15;
         self.uiViewPasFoto.hidden = YES;
     }
+    self.scanningMaxTresshold = 250;
     [self.viewOverlay addSubview:self.uiViewTextDetectionIndicatorOverlay];
     [self initCapture];
 }
@@ -94,8 +96,6 @@
 -(UIView*)createReadedTextIndicator{
     UIView* result = [[UIView alloc] initWithFrame:CGRectMake(185, 97, 6, 160)];
     result.frame = CGRectMake(190, 90, 20, 180);
-    result.layer.borderColor = [UIColor greenColor].CGColor;
-    result.layer.borderWidth = 1;
     result.clipsToBounds = YES;
     
     return result;
@@ -159,20 +159,21 @@
         isReadingImage = true;
         UIImage *originalImage = [self.util imageFromSampleBuffer:sampleBuffer];
         
-        UIImage* rotatedImage = [UIImage imageWithCGImage:[originalImage CGImage]
-                                                    scale:[originalImage scale]
-                                              orientation: UIImageOrientationRight];
+//        UIImage* rotatedImage = [UIImage imageWithCGImage:[originalImage CGImage]
+//                                                    scale:[originalImage scale]
+//                                              orientation: UIImageOrientationRight];
         
-        UIImage* cropImageInScanArea = [rotatedImage cropRectangle:self.overlayRect inFrame:self.originalViewFrame.size];
+
+        UIImage* cropImageInScanArea = [originalImage cropRectangle:CGRectMake(self.overlayRect.origin.y, self.originalViewFrame.size.width - (self.overlayRect.size.width + self.overlayRect.origin.x), self.overlayRect.size.height, self.overlayRect.size.width) inFrame:CGSizeMake(self.originalViewFrame.size.height, self.originalViewFrame.size.width)];
         
-        [self performRecognitionWithImage:cropImageInScanArea];
+        [self performRecognitionWithImage:originalImage readedIMage:cropImageInScanArea];
     }
 }
 
 #pragma recognision part
 
-- (void)performRecognitionWithImage : (UIImage*)originalImage{
-    NSArray<GMVTextBlockFeature *> *features = [self.textDectector featuresInImage:originalImage options:nil];
+- (void)performRecognitionWithImage : (UIImage*)originalImage readedIMage : (UIImage*)forReadImage{
+    NSArray<GMVTextBlockFeature *> *features = [self.textDectector featuresInImage:forReadImage options:nil];
     
     NSString* readedText = @"";
     NSString* recognizedText = @"";
@@ -181,28 +182,33 @@
         for (GMVTextLineFeature *textLine in textBlock.lines) {
             readedText = [self.viewModel extractCardInformationFromString:textLine.value];
             if (![readedText isEqualToString:@"NOT_FOUND"]){
-                self.counter = self.counter + 1;
+                self.counterFounded = self.counterFounded + 1;
                 recognizedText = readedText;
                 [self drawRectacngleOverlayWithRect:textLine.bounds];
             }
         }
     }
+    self.scanningCounter = self.scanningCounter + 1;
     
-    if (self.counter >= self.scanningTresshold){
+    if (self.counterFounded >= self.scanningTresshold && [self isThisArea:self.overlayTextViewCenterPoint containInThisArea:self.uiViewTextDetectionIndicatorOverlayCenterPoint]){
         //captured text
         self.viewModel.capturedText = recognizedText;
         //stop scanning.
-        UIImage* rotatedImageUp = [UIImage imageWithCGImage:[originalImage CGImage]
-                                                      scale:[originalImage scale]
-                                                orientation: UIImageOrientationUp];
         
-        self.viewModel.rawImage = UIImageJPEGRepresentation(rotatedImageUp, 0.0);
+        self.viewModel.rawImage = UIImageJPEGRepresentation(originalImage, 0.0);
         
         isReadingImage = true;
-        [self.captureSession stopRunning];
+//        [self.captureSession stopRunning];
         NSString* stringBase64 = [self.viewModel.rawImage base64EncodedStringWithOptions:NSUTF8StringEncoding];
         [self.delegate onCompletedWithResult:self.viewModel.capturedText image:stringBase64 viewController:self];
         
+    }else if(self.scanningCounter > self.scanningMaxTresshold){
+        isReadingImage = true;
+//        [self.captureSession stopRunning];
+        self.viewModel.rawImage = UIImageJPEGRepresentation(originalImage, 0.0);
+        NSString* stringBase64 = [self.viewModel.rawImage base64EncodedStringWithOptions:NSUTF8StringEncoding];
+        [self.delegate onCompletedWithResult:@"CANNOT_READ_IMAGE" image:stringBase64 viewController:self];
+
     }else{
         //continue scanning
         isReadingImage = false;
