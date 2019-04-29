@@ -109,10 +109,10 @@
 
 - (IBAction)btnTakePicture:(id)sender {
     
-//    [self.captureSession stopRunning];
-//    self.viewModel.rawImage = UIImageJPEGRepresentation(self.capturedImage, 0.0);
-//    NSString* stringBase64 = [self.viewModel.rawImage base64EncodedStringWithOptions:NSUTF8StringEncoding];
-//    [self.delegate onCompletedWithResult:self.viewModel.ocrMode image:stringBase64 viewController:self];
+    [self.captureSession stopRunning];
+    self.viewModel.rawImage = UIImageJPEGRepresentation(self.capturedImage, 0.0);
+    NSString* stringBase64 = [self.viewModel.rawImage base64EncodedStringWithOptions:NSUTF8StringEncoding];
+    [self.delegate onCompletedWithResult:self.viewModel.ocrMode image:stringBase64 viewController:self];
 }
 
 
