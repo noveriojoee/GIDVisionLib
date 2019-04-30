@@ -190,7 +190,8 @@
     }
     self.scanningCounter = self.scanningCounter + 1;
     
-    if (self.counterFounded >= self.scanningTresshold && [self isThisArea:self.overlayTextViewCenterPoint containInThisArea:self.uiViewTextDetectionIndicatorOverlayCenterPoint]){
+    if ([self.viewModel.ocrMode isEqualToString:@"KTP"] && self.counterFounded >= self.scanningTresshold && [self isThisArea:self.overlayTextViewCenterPoint containInThisArea:self.uiViewTextDetectionIndicatorOverlayCenterPoint]){
+        //  ======== EKTP Mode ========
         //captured text
         self.viewModel.capturedText = recognizedText;
         //stop scanning.
@@ -198,13 +199,26 @@
         self.viewModel.rawImage = UIImageJPEGRepresentation(originalImage, 0.0);
         
         isReadingImage = true;
-//        [self.captureSession stopRunning];
+
+        NSString* stringBase64 = [self.viewModel.rawImage base64EncodedStringWithOptions:NSUTF8StringEncoding];
+        [self.delegate onCompletedWithResult:self.viewModel.capturedText image:stringBase64 viewController:self];
+        
+    }else if((![self.viewModel.ocrMode isEqualToString:@"KTP"]) && self.counterFounded >= self.scanningTresshold){
+        // ======== NPWP Mode  ========
+        //captured text
+        self.viewModel.capturedText = recognizedText;
+        //stop scanning.
+        
+        self.viewModel.rawImage = UIImageJPEGRepresentation(originalImage, 0.0);
+        
+        isReadingImage = true;
+        
         NSString* stringBase64 = [self.viewModel.rawImage base64EncodedStringWithOptions:NSUTF8StringEncoding];
         [self.delegate onCompletedWithResult:self.viewModel.capturedText image:stringBase64 viewController:self];
         
     }else if(self.scanningCounter > self.scanningMaxTresshold){
         isReadingImage = true;
-//        [self.captureSession stopRunning];
+
         self.viewModel.rawImage = UIImageJPEGRepresentation(originalImage, 0.0);
         NSString* stringBase64 = [self.viewModel.rawImage base64EncodedStringWithOptions:NSUTF8StringEncoding];
         [self.delegate onCompletedWithResult:@"CANNOT_READ_IMAGE" image:stringBase64 viewController:self];
