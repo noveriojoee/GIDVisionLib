@@ -61,7 +61,7 @@
     self.textDectector = [GMVDetector detectorOfType:GMVDetectorTypeText options:nil];
     self.counterFounded = 0;
     self.scanningCounter = 0;
-    self.radius = 15;
+    self.radius = 50;
 }
 
 - (void)viewDidAppear:(BOOL)animated{
