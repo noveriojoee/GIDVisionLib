@@ -61,7 +61,7 @@
     self.textDectector = [GMVDetector detectorOfType:GMVDetectorTypeText options:nil];
     self.counterFounded = 0;
     self.scanningCounter = 0;
-    self.radius = 50;
+    self.radius = 100;
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -82,7 +82,7 @@
         //remove nik rectangle end
         self.contanstPosition = 0;
         self.uiViewPasFoto.hidden = NO;
-        self.scanningTresshold = 10;
+        self.scanningTresshold = 3;
     }else{
         self.contanstPosition = 0;
         self.scanningTresshold = 15;
