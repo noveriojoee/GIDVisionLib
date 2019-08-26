@@ -21,6 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,retain) AVCaptureVideoDataOutput *captureOutput;
 @property (weak, nonatomic) IBOutlet UIImageView *cameraView;
 @property (weak, atomic) IBOutlet UIView *viewOverlay;
+
+@property int valueScanningTresshold;
+@property int valueScanningMaxTresshold;
+
+
 @property dispatch_queue_t captureSessionQueue;
 @property OCRViewModel* viewModel;
 @property (weak, nonatomic) IBOutlet UIButton *btnClose;

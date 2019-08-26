@@ -82,13 +82,13 @@
         //remove nik rectangle end
         self.contanstPosition = 0;
         self.uiViewPasFoto.hidden = NO;
-        self.scanningTresshold = 3;
+        self.scanningTresshold = self.valueScanningTresshold; //3
     }else{
         self.contanstPosition = 0;
-        self.scanningTresshold = 15;
+        self.scanningTresshold = self.valueScanningTresshold;//15;
         self.uiViewPasFoto.hidden = YES;
     }
-    self.scanningMaxTresshold = 250;
+    self.scanningMaxTresshold = self.valueScanningMaxTresshold;//250;
     [self.viewOverlay addSubview:self.uiViewTextDetectionIndicatorOverlay];
     [self initCapture];
 }
