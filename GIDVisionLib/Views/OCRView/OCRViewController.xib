@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OCRViewController">
             <connections>
+                <outlet property="btnCapture" destination="NPD-ni-h2d" id="QcF-da-5zp"/>
                 <outlet property="btnClose" destination="hAT-ZM-Dcc" id="ZYh-2L-7CZ"/>
                 <outlet property="cameraView" destination="nf4-ic-HGT" id="3LI-Zy-7kd"/>
                 <outlet property="lblKeterangan" destination="cxx-Fc-Cao" id="oSs-mV-l5D"/>
@@ -38,7 +39,24 @@
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qm4-6h-qKq" userLabel="vw_left">
                     <rect key="frame" x="0.0" y="133.5" width="62.5" height="400"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NPD-ni-h2d">
+                            <rect key="frame" x="5" y="3" width="52.5" height="390"/>
+                            <state key="normal" title="Photo">
+                                <color key="titleColor" red="1" green="0.47843137250000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="btnCaptureImage:" destination="-1" eventType="touchUpInside" id="XNr-cp-C2S"/>
+                            </connections>
+                        </button>
+                    </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="NPD-ni-h2d" secondAttribute="bottom" constant="7" id="2Nr-ib-fBh"/>
+                        <constraint firstAttribute="trailing" secondItem="NPD-ni-h2d" secondAttribute="trailing" constant="5" id="jwu-Qx-zJK"/>
+                        <constraint firstItem="NPD-ni-h2d" firstAttribute="top" secondItem="Qm4-6h-qKq" secondAttribute="top" constant="3" id="nwV-zG-tuT"/>
+                        <constraint firstItem="NPD-ni-h2d" firstAttribute="leading" secondItem="Qm4-6h-qKq" secondAttribute="leading" constant="5" id="qvf-kp-us8"/>
+                    </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5sN-Pf-RQ3" userLabel="vw_Bottom">
                     <rect key="frame" x="0.0" y="533.5" width="375" height="133.5"/>

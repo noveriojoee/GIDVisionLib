@@ -28,6 +28,7 @@
 @property UIView *originalView;
 @property UIView *overlayTextView;
 @property CGPoint overlayTextViewCenterPoint;
+@property UIImage* capturedImage;
 @property float contanstPosition;
 
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
@@ -42,6 +43,7 @@
 @property int radius;
 @property int scanningTresshold;
 @property int scanningMaxTresshold;
+@property BOOL isScanningExceedTresshold;
 @end
 
 @implementation OCRViewController
@@ -54,6 +56,7 @@
     //noverio remark begin : to rotate object
     self.btnClose.transform = CGAffineTransformMakeRotation(M_PI_2);
     self.lblKeterangan.transform = CGAffineTransformMakeRotation(M_PI_2);
+    self.btnCapture.transform = CGAffineTransformMakeRotation(M_PI_2);
     self.operationQueue = [[NSOperationQueue alloc] init];
     self.viewOverlay.layer.borderColor = [UIColor blackColor].CGColor;
     self.viewOverlay.layer.cornerRadius = 10;
@@ -62,6 +65,8 @@
     self.counterFounded = 0;
     self.scanningCounter = 0;
     self.radius = 100;
+    [self.btnCapture setHidden: YES];
+    self.isScanningExceedTresshold = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -155,14 +160,13 @@
     
     [connection setVideoOrientation:AVCaptureVideoOrientationLandscapeRight];
     
+    if (self.isScanningExceedTresshold){
+        self.capturedImage = [self.util imageFromSampleBuffer:sampleBuffer];
+    }
+    
     if (isReadingImage == false){
         isReadingImage = true;
         UIImage *originalImage = [self.util imageFromSampleBuffer:sampleBuffer];
-        
-//        UIImage* rotatedImage = [UIImage imageWithCGImage:[originalImage CGImage]
-//                                                    scale:[originalImage scale]
-//                                              orientation: UIImageOrientationRight];
-        
 
         UIImage* cropImageInScanArea = [originalImage cropRectangle:CGRectMake(self.overlayRect.origin.y, self.originalViewFrame.size.width - (self.overlayRect.size.width + self.overlayRect.origin.x), self.overlayRect.size.height, self.overlayRect.size.width) inFrame:CGSizeMake(self.originalViewFrame.size.height, self.originalViewFrame.size.width)];
         
@@ -218,17 +222,31 @@
         
     }else if(self.scanningCounter > self.scanningMaxTresshold){
         isReadingImage = true;
-
-        self.viewModel.rawImage = UIImageJPEGRepresentation(originalImage, 0.0);
-        NSString* stringBase64 = [self.viewModel.rawImage base64EncodedStringWithOptions:NSUTF8StringEncoding];
-        [self.delegate onCompletedWithResult:@"CANNOT_READ_IMAGE" image:stringBase64 viewController:self];
-
+        self.isScanningExceedTresshold = YES;
+        
+        dispatch_async(dispatch_get_main_queue(),^{
+            [self.btnClose setHidden:NO];
+            [self.btnCapture setHidden:NO];
+        });
     }else{
         //continue scanning
         isReadingImage = false;
     }
     
 }
+
+- (IBAction)btnCaptureImage:(id)sender {
+    if (self.capturedImage != nil){
+        [self.captureSession stopRunning];
+        
+//        UIImage* cropImageInScanArea = [self.capturedImage cropRectangle:CGRectMake(self.overlayRect.origin.y, self.originalViewFrame.size.width - (self.overlayRect.size.width + self.overlayRect.origin.x), self.overlayRect.size.height, self.overlayRect.size.width) inFrame:CGSizeMake(self.originalViewFrame.size.height, self.originalViewFrame.size.width)];
+
+        self.viewModel.rawImage = UIImageJPEGRepresentation(self.capturedImage, 0.0);
+        NSString* stringBase64 = [self.viewModel.rawImage base64EncodedStringWithOptions:NSUTF8StringEncoding];
+        [self.delegate onCompletedWithResult:@"CANNOT_READ_IMAGE" image:stringBase64 viewController:self];
+    }
+}
+
 
 -(void)drawRectacngleOverlayWithRect:(CGRect)rectangle{
     dispatch_async(dispatch_get_main_queue(), ^{
