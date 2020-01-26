@@ -8,14 +8,39 @@
 
 /* Begin PBXBuildFile section */
 		7CA9CD3DB4177520E181BFC0 /* libPods-GIDVisionLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D990E2069C1D117B9FE56E7A /* libPods-GIDVisionLib.a */; };
-		DE2A470321E33A1400026949 /* Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = DE2A470121E33A1400026949 /* Utility.h */; };
+		DE0BC444220B01D2007C0833 /* TakeSelfieViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = DE0BC441220B01D2007C0833 /* TakeSelfieViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DE0BC445220B01D2007C0833 /* TakeSelfieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE0BC442220B01D2007C0833 /* TakeSelfieViewController.m */; };
+		DE0BC446220B01D2007C0833 /* TakeSelfieViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE0BC443220B01D2007C0833 /* TakeSelfieViewController.xib */; };
+		DE0BC44A220B12A0007C0833 /* SelfieFaceFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = DE0BC448220B12A0007C0833 /* SelfieFaceFrame.h */; };
+		DE0BC44B220B12A0007C0833 /* SelfieFaceFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = DE0BC449220B12A0007C0833 /* SelfieFaceFrame.m */; };
+		DE0BC44E220B12B1007C0833 /* SelfieCardFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = DE0BC44C220B12B1007C0833 /* SelfieCardFrame.h */; };
+		DE0BC44F220B12B1007C0833 /* SelfieCardFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = DE0BC44D220B12B1007C0833 /* SelfieCardFrame.m */; };
+		DE2A470321E33A1400026949 /* Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = DE2A470121E33A1400026949 /* Utility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DE2A470421E33A1400026949 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = DE2A470221E33A1400026949 /* Utility.m */; };
 		DE362B3E21E32F450078E778 /* GIDVisionLib.h in Headers */ = {isa = PBXBuildFile; fileRef = DE362B3021E32F450078E778 /* GIDVisionLib.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DE53A532225AFDB6003D43CC /* UIImage+Cropping.h in Headers */ = {isa = PBXBuildFile; fileRef = DE53A530225AFDB6003D43CC /* UIImage+Cropping.h */; };
+		DE53A533225AFDB6003D43CC /* UIImage+Cropping.m in Sources */ = {isa = PBXBuildFile; fileRef = DE53A531225AFDB6003D43CC /* UIImage+Cropping.m */; };
+		DEE05C2021E34EFC0055B105 /* OCRViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = DEE05C1D21E34EFC0055B105 /* OCRViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DEE05C2121E34EFC0055B105 /* OCRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEE05C1E21E34EFC0055B105 /* OCRViewController.m */; };
+		DEE05C2221E34EFC0055B105 /* OCRViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DEE05C1F21E34EFC0055B105 /* OCRViewController.xib */; };
+		DEED835621E758A400DD1AF5 /* GIDOcrProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = DEED835521E758A400DD1AF5 /* GIDOcrProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DEF9940221E738D700FA9A91 /* OCRViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = DEF9940021E738D700FA9A91 /* OCRViewModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DEF9940321E738D700FA9A91 /* OCRViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF9940121E738D700FA9A91 /* OCRViewModel.m */; };
+		DEFD81D9226C681C0013D242 /* TakeSignatureViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = DEFD81D6226C681C0013D242 /* TakeSignatureViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DEFD81DA226C681C0013D242 /* TakeSignatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEFD81D7226C681C0013D242 /* TakeSignatureViewController.m */; };
+		DEFD81DB226C681C0013D242 /* TakeSignatureViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DEFD81D8226C681C0013D242 /* TakeSignatureViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		342F57A4E1276CD544434A61 /* Pods-GIDVisionLib.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GIDVisionLib.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GIDVisionLib/Pods-GIDVisionLib.debug.xcconfig"; sourceTree = "<group>"; };
 		D990E2069C1D117B9FE56E7A /* libPods-GIDVisionLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GIDVisionLib.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE0BC441220B01D2007C0833 /* TakeSelfieViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TakeSelfieViewController.h; sourceTree = "<group>"; };
+		DE0BC442220B01D2007C0833 /* TakeSelfieViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TakeSelfieViewController.m; sourceTree = "<group>"; };
+		DE0BC443220B01D2007C0833 /* TakeSelfieViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TakeSelfieViewController.xib; sourceTree = "<group>"; };
+		DE0BC448220B12A0007C0833 /* SelfieFaceFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelfieFaceFrame.h; sourceTree = "<group>"; };
+		DE0BC449220B12A0007C0833 /* SelfieFaceFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelfieFaceFrame.m; sourceTree = "<group>"; };
+		DE0BC44C220B12B1007C0833 /* SelfieCardFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelfieCardFrame.h; sourceTree = "<group>"; };
+		DE0BC44D220B12B1007C0833 /* SelfieCardFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelfieCardFrame.m; sourceTree = "<group>"; };
 		DE2A470121E33A1400026949 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
 		DE2A470221E33A1400026949 /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
 		DE362B2D21E32F450078E778 /* GIDVisionLib.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GIDVisionLib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -23,6 +48,17 @@
 		DE362B3121E32F450078E778 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DE362B3B21E32F450078E778 /* GIDVisionLibTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GIDVisionLibTests.m; sourceTree = "<group>"; };
 		DE362B3D21E32F450078E778 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DE53A530225AFDB6003D43CC /* UIImage+Cropping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Cropping.h"; sourceTree = "<group>"; };
+		DE53A531225AFDB6003D43CC /* UIImage+Cropping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Cropping.m"; sourceTree = "<group>"; };
+		DEE05C1D21E34EFC0055B105 /* OCRViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCRViewController.h; sourceTree = "<group>"; };
+		DEE05C1E21E34EFC0055B105 /* OCRViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OCRViewController.m; sourceTree = "<group>"; };
+		DEE05C1F21E34EFC0055B105 /* OCRViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OCRViewController.xib; sourceTree = "<group>"; };
+		DEED835521E758A400DD1AF5 /* GIDOcrProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIDOcrProtocol.h; sourceTree = "<group>"; };
+		DEF9940021E738D700FA9A91 /* OCRViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCRViewModel.h; sourceTree = "<group>"; };
+		DEF9940121E738D700FA9A91 /* OCRViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OCRViewModel.m; sourceTree = "<group>"; };
+		DEFD81D6226C681C0013D242 /* TakeSignatureViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TakeSignatureViewController.h; sourceTree = "<group>"; };
+		DEFD81D7226C681C0013D242 /* TakeSignatureViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TakeSignatureViewController.m; sourceTree = "<group>"; };
+		DEFD81D8226C681C0013D242 /* TakeSignatureViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TakeSignatureViewController.xib; sourceTree = "<group>"; };
 		E6D0AD226918626E8DFC6A92 /* Pods-GIDVisionLib.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GIDVisionLib.release.xcconfig"; path = "Pods/Target Support Files/Pods-GIDVisionLib/Pods-GIDVisionLib.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -55,6 +91,37 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		DE0BC43F220B019D007C0833 /* OCRView */ = {
+			isa = PBXGroup;
+			children = (
+				DEE05C1D21E34EFC0055B105 /* OCRViewController.h */,
+				DEE05C1E21E34EFC0055B105 /* OCRViewController.m */,
+				DEE05C1F21E34EFC0055B105 /* OCRViewController.xib */,
+			);
+			path = OCRView;
+			sourceTree = "<group>";
+		};
+		DE0BC440220B01AE007C0833 /* SelfieView */ = {
+			isa = PBXGroup;
+			children = (
+				DE0BC441220B01D2007C0833 /* TakeSelfieViewController.h */,
+				DE0BC442220B01D2007C0833 /* TakeSelfieViewController.m */,
+				DE0BC443220B01D2007C0833 /* TakeSelfieViewController.xib */,
+			);
+			path = SelfieView;
+			sourceTree = "<group>";
+		};
+		DE0BC447220B1281007C0833 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				DE0BC448220B12A0007C0833 /* SelfieFaceFrame.h */,
+				DE0BC449220B12A0007C0833 /* SelfieFaceFrame.m */,
+				DE0BC44C220B12B1007C0833 /* SelfieCardFrame.h */,
+				DE0BC44D220B12B1007C0833 /* SelfieCardFrame.m */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
 		DE362B2321E32F450078E778 = {
 			isa = PBXGroup;
 			children = (
@@ -77,8 +144,11 @@
 		DE362B2F21E32F450078E778 /* GIDVisionLib */ = {
 			isa = PBXGroup;
 			children = (
-				DE2A470121E33A1400026949 /* Utility.h */,
-				DE2A470221E33A1400026949 /* Utility.m */,
+				DE53A52F225AFDA6003D43CC /* Utilities */,
+				DEED835221E752EE00DD1AF5 /* Protocols */,
+				DEE05C2521E34F5E0055B105 /* Models */,
+				DEE05C2421E34F590055B105 /* ViewModels */,
+				DEE05C2321E34F4F0055B105 /* Views */,
 				DE362B3021E32F450078E778 /* GIDVisionLib.h */,
 				DE362B3121E32F450078E778 /* Info.plist */,
 			);
@@ -94,6 +164,62 @@
 			path = GIDVisionLibTests;
 			sourceTree = "<group>";
 		};
+		DE53A52F225AFDA6003D43CC /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				DE53A530225AFDB6003D43CC /* UIImage+Cropping.h */,
+				DE53A531225AFDB6003D43CC /* UIImage+Cropping.m */,
+				DE2A470121E33A1400026949 /* Utility.h */,
+				DE2A470221E33A1400026949 /* Utility.m */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		DEE05C2321E34F4F0055B105 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DEFD81D5226C68040013D242 /* CaptureSignatureView */,
+				DE0BC447220B1281007C0833 /* CustomView */,
+				DE0BC440220B01AE007C0833 /* SelfieView */,
+				DE0BC43F220B019D007C0833 /* OCRView */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DEE05C2421E34F590055B105 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				DEF9940021E738D700FA9A91 /* OCRViewModel.h */,
+				DEF9940121E738D700FA9A91 /* OCRViewModel.m */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		DEE05C2521E34F5E0055B105 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		DEED835221E752EE00DD1AF5 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				DEED835521E758A400DD1AF5 /* GIDOcrProtocol.h */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		DEFD81D5226C68040013D242 /* CaptureSignatureView */ = {
+			isa = PBXGroup;
+			children = (
+				DEFD81D6226C681C0013D242 /* TakeSignatureViewController.h */,
+				DEFD81D7226C681C0013D242 /* TakeSignatureViewController.m */,
+				DEFD81D8226C681C0013D242 /* TakeSignatureViewController.xib */,
+			);
+			path = CaptureSignatureView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -101,8 +227,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEED835621E758A400DD1AF5 /* GIDOcrProtocol.h in Headers */,
+				DEF9940221E738D700FA9A91 /* OCRViewModel.h in Headers */,
 				DE362B3E21E32F450078E778 /* GIDVisionLib.h in Headers */,
 				DE2A470321E33A1400026949 /* Utility.h in Headers */,
+				DE0BC44E220B12B1007C0833 /* SelfieCardFrame.h in Headers */,
+				DE53A532225AFDB6003D43CC /* UIImage+Cropping.h in Headers */,
+				DE0BC44A220B12A0007C0833 /* SelfieFaceFrame.h in Headers */,
+				DEFD81D9226C681C0013D242 /* TakeSignatureViewController.h in Headers */,
+				DE0BC444220B01D2007C0833 /* TakeSelfieViewController.h in Headers */,
+				DEE05C2021E34EFC0055B105 /* OCRViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,7 +252,7 @@
 				DE362B2921E32F450078E778 /* Sources */,
 				DE362B2A21E32F450078E778 /* Frameworks */,
 				DE362B2B21E32F450078E778 /* Resources */,
-				E3017A2BC80917859EF84278 /* [CP] Copy Pods Resources */,
+				2B11E5D2976E7919C4D158DA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -165,6 +299,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEE05C2221E34EFC0055B105 /* OCRViewController.xib in Resources */,
+				DE0BC446220B01D2007C0833 /* TakeSelfieViewController.xib in Resources */,
+				DEFD81DB226C681C0013D242 /* TakeSignatureViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,7 +330,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E3017A2BC80917859EF84278 /* [CP] Copy Pods Resources */ = {
+		2B11E5D2976E7919C4D158DA /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -222,7 +359,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEF9940321E738D700FA9A91 /* OCRViewModel.m in Sources */,
+				DE0BC445220B01D2007C0833 /* TakeSelfieViewController.m in Sources */,
+				DE53A533225AFDB6003D43CC /* UIImage+Cropping.m in Sources */,
 				DE2A470421E33A1400026949 /* Utility.m in Sources */,
+				DE0BC44F220B12B1007C0833 /* SelfieCardFrame.m in Sources */,
+				DEE05C2121E34EFC0055B105 /* OCRViewController.m in Sources */,
+				DEFD81DA226C681C0013D242 /* TakeSignatureViewController.m in Sources */,
+				DE0BC44B220B12A0007C0833 /* SelfieFaceFrame.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,6 +504,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = GIDVisionLib/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -385,6 +530,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = GIDVisionLib/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

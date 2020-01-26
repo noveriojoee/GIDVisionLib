@@ -15,7 +15,10 @@
 
 - (UIImage *) resizeImage:(UIImage *)image;
 - (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer;
-- (UIImage *) cropImageToTheScanAreaOnly:(CGRect)scanAreaFrame originalView : (UIView *)view forImage:(UIImage *)image;
-- (NSString *) extractWithRegex:(NSString *)regexString result:(NSString *)ScanResult;
+- (UIImage *) cropImageToTheScanAreaOnly:(CGRect)scanAreaFrame originalView : (CGRect)viewFrame forImage:(UIImage *)image;
+
+- (NSString *) extractDebitCardNumber:(NSString *)ScanResult;
+- (NSString *) extractNPWP:(NSString *)ScanResult;
+- (NSString*) extractNIK:(NSString *)scanResult;
 
 @end
